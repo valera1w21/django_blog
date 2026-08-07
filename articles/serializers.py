@@ -24,3 +24,23 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ['id', 'title', 'content', 'author', 'tags', 'created_at']
+
+
+class ArticleWriteSerializer(serializers.ModelSerializer):
+    tags = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Tag.objects.all(),
+        required=False
+    )
+
+    class Meta:
+        model = Article
+        fields = ['id', 'title', 'content', 'tags']
+
+class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'content', 'author', 'article', 'created_at']
+        read_only_fields = ['article']     

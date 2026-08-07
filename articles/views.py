@@ -10,6 +10,7 @@ from .serializers import (
 )
 
 class ArticleListView(generics.ListCreateAPIView):
+    """List all articles (public) and create a new article (admin only)."""
   
 
     queryset = Article.objects.all()
@@ -25,8 +26,8 @@ class ArticleListView(generics.ListCreateAPIView):
 
 
 class ArticleDetailView(generics.RetrieveUpdateDestroyAPIView):
-   
-
+    """Retrieve an article (public), update or delete it (admin only)."""
+ 
     queryset = Article.objects.all()
     permission_classes = [IsAdminOrReadOnly]
 
@@ -36,6 +37,7 @@ class ArticleDetailView(generics.RetrieveUpdateDestroyAPIView):
         return ArticleDetailSerializer
     
 class CommentListView(generics.ListCreateAPIView):
+    """List comments for an article (public), add a comment (authenticated users)."""
 
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -49,6 +51,7 @@ class CommentListView(generics.ListCreateAPIView):
 
 
 class CommentDeleteView(generics.DestroyAPIView):
+    """Delete a comment (admin only)."""
 
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
